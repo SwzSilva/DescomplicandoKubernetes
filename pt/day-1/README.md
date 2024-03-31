@@ -129,7 +129,7 @@ Temos três tipos de *Container Runtime*:
 
 A imagem a seguir mostra como o Container Engine e o Container Runtime (High-level e Low-level) se organizam entre eles e com outros componentes do ecossistema de containers.
 
-![Organização do Container Engine e Container Runtime](files\imgs\container-engine-runtime-organization.png)
+![Organização do Container Engine e Container Runtime](../../images\container-engine-runtime-organization.png)
 
 &nbsp;
 ### O que é o Kubernetes?

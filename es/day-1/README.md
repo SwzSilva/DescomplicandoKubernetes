@@ -143,7 +143,7 @@ Kata Containers es un ejemplo de *Container Runtime* tipo Virtualized.
 
 La siguiente imagen muestra cómo se organizan *Container Engine* y *Container Runtime* (High-level y Low-level) entre sí y con otros componentes del ecosistema de contenedores.
 
-![Organización del motor de contenedores y el tiempo de ejecución de contenedores](files\imgs\container-engine-runtime-organization.png)
+![Organización del motor de contenedores y el tiempo de ejecución de contenedores](../../images\container-engine-runtime-organization.png)
 
 &nbsp;
 
