@@ -127,6 +127,10 @@ Temos três tipos de *Container Runtime*:
 
 - Sandbox e Virtualized: são os *Container Runtime* que são executados por um *Container Engine* e que são responsáveis por executar containers de forma segura. O tipo Sandbox é executado em unikernels ou utilizando algum proxy para fazer a comunicação com o Kernel. O gVisor é um exemplo de *Container Runtime* do tipo Sandbox. Já o tipo Virtualized é executado em máquinas virtuais. A performance aqui é um pouco menor do que quando executado nativamente. O Kata Containers é um exemplo de *Container Runtime* do tipo Virtualized.
 
+A imagem a seguir mostra como o Container Engine e o Container Runtime (High-level e Low-level) se organizam entre eles e com outros componentes do ecossistema de containers.
+
+![Organização do Container Engine e Container Runtime](files\imgs\container-engine-runtime-organization.png)
+
 &nbsp;
 ### O que é o Kubernetes?
 

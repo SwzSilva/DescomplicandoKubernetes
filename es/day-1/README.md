@@ -141,6 +141,10 @@ Tenemos tres tipos de *Container Runtime*:
 - Virtualized: son los *Container Runtime* que se ejecutan a través de un *Container Engine* y son responsables de ejecutar contenedores de manera segura en máquinas virtuales. El rendimiento aquí es un poco menor que cuando se ejecuta nativamente.
 Kata Containers es un ejemplo de *Container Runtime* tipo Virtualized.
 
+La siguiente imagen muestra cómo se organizan *Container Engine* y *Container Runtime* (High-level y Low-level) entre sí y con otros componentes del ecosistema de contenedores.
+
+![Organización del motor de contenedores y el tiempo de ejecución de contenedores](files\imgs\container-engine-runtime-organization.png)
+
 &nbsp;
 
 ### ¿Qué es Kubernetes?
