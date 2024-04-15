@@ -18,8 +18,7 @@
         - [Criando o Cluster EKS](#criando-o-cluster-eks)
         - [Instalando o AWS VPC CNI Plugin](#instalando-o-aws-vpc-cni-plugin)
         - [Habilitando o Network Policy nas Configurações Avançadas do CNI](#habilitando-o-network-policy-nas-configurações-avançadas-do-cni)
-      - [Instalando o Nginx Ingress Controller](#instalando-o-nginx-ingress-controller)
-    - [Instalando um Nginx Ingress Controller](#instalando-um-nginx-ingress-controller)
+    - [Instalando o Nginx Ingress Controller](#instalando-o-nginx-ingress-controller)
       - [Nossa Aplicação de Exemplo](#nossa-aplicação-de-exemplo)
     - [Criando Regras de Network Policy](#criando-regras-de-network-policy)
       - [Ingress](#ingress)
@@ -75,13 +74,13 @@ Outros CNI que suportam Network Policies são o Weave Net e o Cilium, por exempl
 
 #### Criando um Cluster EKS com Network Policies
 
-Eu acredito que nessa altura do treinamento, você já saiba o que é um cluster EKS, certo?
+Eu acredito que nessa altura, você já saiba o que é um cluster EKS, certo?
 
 Mas mesmo assim, eu vou fazer um pequena apresentação somente para resfrescar a sua memória ou então ajudar quem está chegando agora por aqui. hahaha
 
 O EKS é o Kubernetes gerenciado pela AWS, mas o que isso significa?
 
-Quando falamos sobre clusters Kubernetes gerenciados, estamos falando que que não precisaremos nos preocupar com a instalação e configuração do Kubernetes, pois isso será feito pela AWS. Nós precisaremos apenas criar o nosso cluster e gerenciar as nossas aplicações.
+Quando falamos sobre clusters Kubernetes gerenciados, estamos falando que não precisaremos nos preocupar com a instalação e configuração do Kubernetes, pois isso será feito pela AWS. Nós precisaremos apenas criar o nosso cluster e gerenciar as nossas aplicações.
 
 Como você já sabe, nós temos dois tipos de Nodes, os Nodes do Control Plane e os Nodes Workers. No EKS, os Nodes do Control Plane são gerenciados pela AWS, ou seja, não precisaremos nos preocupar com eles. Já os Workers, nós precisaremos criar e gerenciar, pelo menos na maioria dos casos.
 
@@ -102,7 +101,7 @@ Para o nosso exemplo, vamos escolher do tipo 'Managed Node Groups', pois assim n
 
 Para criar o cluster vamos utilizar o EKSCTL, que é uma ferramenta de linha de comando que nos ajuda a criar e gerenciar clusters EKS. Você pode encontrar mais informações sobre o EKSCTL [aqui](https://eksctl.io/).
 
-Ela acabou se tornando uma das formas oficiais de criar e gerenciar clusters EKS, e é a ferramenta que eu mais utilizo para criar e gerenciar clusters EKS. Alias, acredito que seja a ferramenta mais utilizada para criar clusters EKS, quando não estamos utilizando alguma ferramenta de IaC, como o Terraform, por exemplo.
+O EKSCTL acabou se tornando uma das formas oficiais de criar e gerenciar clusters EKS, e é a ferramenta que eu mais utilizo para criar e gerenciar clusters EKS. Alias, acredito que seja a ferramenta mais utilizada para criar clusters EKS, quando não estamos utilizando alguma ferramenta de IaC, como o Terraform, por exemplo.
 
 
 ##### Instalando o EKSCTL
@@ -186,17 +185,14 @@ Agora que temos o AWS CLI instalado, precisamos configurar o AWS CLI, para isso,
 aws configure
 ```
 
-Aqui você precisa informar as suas credenciais da AWS, que você pode encontrar [aqui](https://console.aws.amazon.com/iam/home?#/securi
-ty_credentials).
-
-As informações que você precisa informar são:
+Aqui você precisa informar as suas credenciais da AWS:
 
 - AWS Access Key ID
 - AWS Secret Access Key
 - Default region name
 - Default output format
 
-O seu Access Key ID e o Secret Access Key pode ser encontrados [aqui](https://console.aws.amazon.com/iam/home?#/security_credentials). Já a região fica a seu critero, eu vou utilizar a região `us-east-1`, mas você pode utilizar a região que preferir. E por fim, o formato de saída, eu vou utilizar o formato `json`, mas você pode utilizar outra opção, como `text`, por exemplo.
+O seu Access Key ID e o Secret Access Key pode ser encontrados [Security Credentials](https://console.aws.amazon.com/iam/home?#/security_credentials). Já a região fica a seu critero, eu vou utilizar a região `us-east-1`, mas você pode utilizar a região que preferir. E por fim, o formato de saída, eu vou utilizar o formato `json`, mas você pode utilizar outra opção, como `text`, por exemplo.
 
 
 
@@ -204,7 +200,7 @@ O seu Access Key ID e o Secret Access Key pode ser encontrados [aqui](https://co
 
 Agora que temos o AWS CLI instalado e configurado, podemos criar o nosso cluster EKS.
 
-Podemos cria-lo através da linha de comando somente ou então podemos criar um arquivo de configuração para facilitar a criação do cluster.
+Podemos cria-lo através da linha de comando ou por meio de um arquivo de configuração para facilitar a criação do cluster.
 
 Primeiro vou trazer o comando que iremos utilizar e na sequência vou explicar o que estamos fazendo e trazer o arquivo de configuração.
 
@@ -330,11 +326,9 @@ eksctl create addon --name vpc-cni --version v1.16.0-eksbuild.1 --cluster eks-cl
 
 Lembrando que você precisa substituir o nome do cluster e a versão do CNI pela versão do seu cluster.
 
-Você pode verificar o link abaixo para verificar a versão do CNI que você precisa utilizar:
+Você pode verificar no link abaixo a versão do CNI que você precisa utilizar de acordo com a versão do Kubernetes que você está utilizando, então fique atento a isso.
 
 https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html
-
-Você deve escolher a versão do CNI de acordo com a versão do Kubernetes que você está utilizando, então fique atento a isso.
 
 Bem, voltando ao comando, o que estamos fazendo aqui é o seguinte:
 
@@ -388,23 +382,23 @@ Agora que temos o CNI da AWS instalado, precisamos habilitar o Network Policy na
 - Acessar o serviço EKS.
 - Selecionar o seu cluster.
 - Selecionar a aba `Add-ons`.
-- Selecionar o edit do Addon `vpc-cni`.
-- Configuração Avançada do CNI.
-- Habilitar o Network Policy.
+- Selecionar o Addon `vpc-cni`.
+- Clique em `Edit`.
+- Vá até a seção `Optional Configuration`
+- Em `Configuration Value`, adicione o seguinte valor: `"enableNetworkPolicy": "true".`
+- Clique em `Save`.
 
-![Alt text](images/image-2.png?raw=true "EKS Cluster")
+![Alt text](images/image-3.png?raw=true "EKS Cluster")
 
 
 Depois de alguns minutos, você pode acessar o Addon `vpc-cni` novamente e verificar se o Network Policy está habilitado e atualizado com o Network Policy habilitado.
 
-![Alt text](images/image-3.png?raw=true "EKS Cluster")
+![Alt text](images/image-2.png?raw=true "EKS Cluster")
 
 Pronto, cluster configurado! Agora já podemos continuar com o nosso exemplo. :D
 
 
-#### Instalando o Nginx Ingress Controller
-
-### Instalando um Nginx Ingress Controller
+### Instalando o Nginx Ingress Controller
 
 Para que tudo funcione bem em nosso exemplo, vamos instalar o Nginx Ingress Controller. É importante observar a versão do Ingress Controller que você está instalando, pois as versões mais recentes ou mais antigas podem não ser compatíveis com o Kubernetes que você está usando. Para este tutorial, vamos usar a versão 1.9.5.
 No seu terminal, execute os seguintes comandos:
@@ -533,7 +527,7 @@ spec:
   type: ClusterIP
 ```
 
-E por fim, vamos criar o nosso Ingress Controller, que vamos criar com o arquivo `giropops-ingress.yaml`:
+E por fim, vamos criar o nosso Ingress Controller, com o arquivo `giropops-ingress.yaml`:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -685,7 +679,7 @@ pod "redis-client" deleted
 
 Pronto, agora que temos a nossa Network Policy funcionando!
 
-Agora vamos queremos bloquear todo o acesso de entrada para os Pods do namespace `giropops`, para isso, vamos criar o arquivo `nao-permitir-nada-externo.yaml` com o seguinte conteúdo:
+Agora vamos bloquear todo o acesso de entrada para os Pods do namespace `giropops`, para isso, vamos criar o arquivo `nao-permitir-nada-externo.yaml` com o seguinte conteúdo:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -728,7 +722,7 @@ Vamos testar o acesso ao Redis a partir de um Pod fora do namespace `giropops`, 
 kubectl run -it --rm --image redis redis-client -- redis-cli -h redis-service.giropops.svc.cluster.local ping
 ```
 
-Nada de novo, certo, porém vamos testar o acesso a nossa aplicação a partir de um Pod fora do namespace `giropops`, para isso vamos user o comando `curl`:
+Nada de novo, certo? Agora vamos testar o acesso a nossa aplicação a partir de um Pod fora do namespace `giropops`, para isso vamos user o comando `curl`:
 
 ```bash
 kubectl run -it --rm --image curlimages/curl curl-client -- curl giropops-senhas.giropops.svc
@@ -840,6 +834,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: default-deny-all
+  namespace: giropops
 spec:
   podSelector: {}
   policyTypes:
@@ -847,7 +842,8 @@ spec:
   - Egress
 ```
 
-Agora estamos bloqueando todo o tráfego de entrada para os Pods do namespace `giropops`, pois estamos utilizando o `ingress: []` para bloquear todo o tráfego de entrada. Mais uma vez, estamos usando o `[]` vazio para selecionar todos os Pods e bloquear todo o tráfego de entrada, pois não estamos especificando nenhum critério.
+Agora estamos bloqueando todo o tráfego de entrada e saída para os Pods do namespace `giropops`, pois estamos utilizando o `podSelector {}` para bloquear todo o tráfego de entrada. Mais uma vez, estamos usando o `{}` vazio para selecionar todos os Pods e bloquear todo o tráfego, pois não estamos especificando nenhum critério.
+
 O policyTypes é um campo obrigatório, e nele você deve especificar o tipo de política que você está criando, nesse caso, estamos criando uma política de entrada e saída, por isso estamos utilizando o `Ingress` e o `Egress`.
 
 
@@ -884,7 +880,7 @@ spec:
       port: 6379
 ```
 
-Com isso temos mais um regra para permitir o acesso ao Redis e a App somente entre eles e somente nas portas 6379 e 5000.
+Com isso temos mais um regra para permitir o acesso ao Redis somente para a nossa App na porta 6379, e atendendo o requisito de que a nossa App precisa estar no namespace `giropops`.
 
 Vamos aplicar:
 
@@ -892,7 +888,7 @@ Vamos aplicar:
 kubectl apply -f permitir-somente-ingress-entre-app-redis-mesmo-ns.yaml -n giropops
 ```
 
-Pronto, fizemos mais uma camada de segurança, agora somente a nossa aplicação pode acessar o Redis, e somente nas portas 6379 e 5000, mas ainda temos um problema, pois o nosso Ingress Controller não consegue acessar a nossa aplicação, e com isso, nossos clientes não irão conseguir acessar a nossa aplicação, então vamos criar uma Network Policy para permitir o acesso ao nosso Ingress Controller, veja:
+Pronto, fizemos mais uma camada de segurança, agora somente a nossa aplicação pode acessar o Redis, e somente na porta 6379. Mas ainda temos um problema, pois o nosso Ingress Controller não consegue acessar a nossa aplicação, e com isso, nossos clientes também não irão conseguir, então vamos criar uma Network Policy para permitir o acesso ao nosso Ingress Controller, veja:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -914,10 +910,9 @@ spec:
       port: 5000
 ```
 
-Pronto, agora o nosso Ingress Controller consegue acessar a nossa aplicação, e com isso, nossos clientes também conseguem acessar a nossa aplicação! 
+Pronto, agora o nosso Ingress Controller consegue acessar a nossa aplicação na porta 5000, e com isso, nossos clientes também irão ter acesso!
 
-
-Mas ainda temos um problema, os nossos Pods não conseguem acessar o DNS do cluster, então vamos criar uma Network Policy para permitir o acesso ao DNS do cluster e com isso o Pod de nossa App conseguirá acessar o Redis tranquilamente
+Mas ainda temos um problema, os nossos Pods não conseguem acessar o DNS do cluster, então vamos criar uma Network Policy para permitir o acesso ao DNS do cluster e com isso o Pod de nossa App conseguirá acessar o Redis tranquilamente.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
