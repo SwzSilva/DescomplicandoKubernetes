@@ -170,10 +170,13 @@ Hora de instalar os pacotes do Kubernetes! Coisa linda de ai meu Deus! Aqui vamo
 
 ```
 sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+```
+Com a [mudança de repositório do k8s](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/change-package-repository/), agora é necessário setar explicitamente a versão antes de instalar os componentes, abaixo vemos a instalação dos componenetes na versão 1.28, para instalação de outras versões substitua `v1.28` pela versão desejada:
 
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+```
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
